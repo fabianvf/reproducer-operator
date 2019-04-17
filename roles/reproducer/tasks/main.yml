@@ -4,11 +4,3 @@
     kind: Namespace
     api_version: v1
     name: reproducer
-
-- name: "Set objects state={{ state }}"
-  k8s:
-    state: "{{ item.0 }}"
-    definition: "{{ lookup('file', item.1) | from_yaml }}"
-  with_nested:
-    - [absent, present, absent]
-    - [serviceaccount.yaml, clusterrole.yaml, clusterrolebinding.yaml]

@@ -28,6 +28,9 @@ spec:
             readOnly: true
         - name: operator
           # Replace this with the built image name
+          args:
+          - '--zap-level'
+          - '10'
           image: "{{ REPLACE_IMAGE }}"
           imagePullPolicy: "{{ pull_policy|default('Always') }}"
           volumeMounts:
