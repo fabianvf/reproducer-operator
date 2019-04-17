@@ -1,0 +1,7 @@
+apiVersion: debug.fabianism.us/v1alpha1
+kind: Reproducer
+metadata:
+  name: example-reproducer
+spec:
+  # Add fields here
+  size: 3
