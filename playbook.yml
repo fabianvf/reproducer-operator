@@ -1,0 +1,33 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: no
+
+  vars:
+    name: '{{ meta.name | default("reproducer") }}'
+    namespace: '{{ meta.namespace | default("default") }}'
+    ansible_python_interpreter: '{{ ansible_playbook_python }}'
+
+  tasks:
+    - name: Create Pod
+      community.kubernetes.k8s:
+        definition:
+          kind: Pod
+          apiVersion: v1
+          metadata:
+            name: reproducer-{{ name }}
+            namespace: '{{ namespace }}'
+          spec:
+            containers:
+            - name: reproducer
+              image: fedora
+              command: ['sh', '-c', 'echo Hello Kubernetes! && sleep 3600']
+
+    - name: Run a command in the pod
+      community.kubernetes.k8s_exec:
+        namespace: '{{ namespace }}'
+        pod: reproducer-{{ name }}
+        command: echo hello
+      register: result
+
+    - debug: var=result

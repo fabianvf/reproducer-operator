@@ -3,14 +3,11 @@ dependency:
   name: galaxy
 driver:
   name: docker
-lint:
-  name: yamllint
-  enabled: False
 platforms:
 - name: kind-local
   groups:
   - k8s
-  image: bsycorp/kind:latest-1.12
+  image: bsycorp/kind:latest-1.16
   privileged: True
   override_command: no
   exposed_ports:
@@ -36,20 +33,7 @@ provisioner:
     KUBECONFIG: /tmp/molecule/kind-local/kubeconfig
     ANSIBLE_ROLES_PATH: ${MOLECULE_PROJECT_DIRECTORY}/roles
     KIND_PORT: '${TEST_CLUSTER_PORT:-24443}'
-scenario:
-  name: local
-  test_sequence:
-    - lint
-    - destroy
-    - dependency
-    - syntax
-    - create
-    - prepare
-    - converge
-    - side_effect
-    - verify
-    - destroy
 verifier:
-  name: testinfra
+  name: ansible
   lint:
-    name: flake8
+    name: ansible-lint

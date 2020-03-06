@@ -2,4 +2,4 @@
 - version: v1alpha1
   group: debug.fabianism.us
   kind: Reproducer
-  role: /opt/ansible/roles/reproducer
+  playbook: playbook.yml
